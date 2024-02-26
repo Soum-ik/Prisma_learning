@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,258 +13,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model brands {
-  id         BigInt     @id @default(autoincrement()) @db.UnsignedBigInt
-  brandName  String     @db.VarChar(50)
-  brandImg   String     @db.VarChar(300)
-  
+model product {
+  id        BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  title     String @db.VarChar(100)
+  sub_title String @db.VarChar(100)
+  price     String @db.VarChar(100)
+  image     String @db.VarChar(100)
+
+  createAt       DateTime        @default(now()) @db.Timestamp(0)
+  updateAt       DateTime        @default(now()) @updatedAt @db.Timestamp(0)
+  product_detils product_detils?
 }
 
-model categories {
-  id           BigInt     @id @default(autoincrement()) @db.UnsignedBigInt
-  categoryName String     @db.VarChar(50)
-  categoryImg  String     @db.VarChar(300)
-  created_at   DateTime   @default(now()) @db.Timestamp(0)
-  updated_at   DateTime   @default(now()) @db.Timestamp(0)
-  products     products[]
-}
-
-model customer_profiles {
-  id              BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
-  cus_name        String            @db.VarChar(100)
-  cus_add         String            @db.VarChar(500)
-  cus_city        String            @db.VarChar(50)
-  cus_state       String            @db.VarChar(50)
-  cus_postcode    String            @db.VarChar(50)
-  cus_country     String            @db.VarChar(50)
-  cus_phone       String            @db.VarChar(50)
-  cus_fax         String            @db.VarChar(50)
-  ship_name       String            @db.VarChar(100)
-  ship_add        String            @db.VarChar(100)
-  ship_city       String            @db.VarChar(100)
-  ship_state      String            @db.VarChar(100)
-  ship_postcode   String            @db.VarChar(100)
-  ship_country    String            @db.VarChar(100)
-  ship_phone      String            @db.VarChar(50)
-  user_id         BigInt            @unique(map: "customer_profiles_user_id_unique") @db.UnsignedBigInt
-  created_at      DateTime          @default(now()) @db.Timestamp(0)
-  updated_at      DateTime          @default(now()) @db.Timestamp(0)
-  users           users             @relation(fields: [user_id], references: [id], map: "customer_profiles_user_id_foreign")
-  product_reviews product_reviews[]
-}
-
-model invoice_products {
+model product_detils {
   id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
-  invoice_id BigInt   @db.UnsignedBigInt
-  product_id BigInt   @db.UnsignedBigInt
-  user_id    BigInt   @db.UnsignedBigInt
-  qty        String   @db.VarChar(50)
-  sale_price String   @db.VarChar(50)
-  created_at DateTime @default(now()) @db.Timestamp(0)
-  updated_at DateTime @default(now()) @db.Timestamp(0)
-  invoices   invoices @relation(fields: [invoice_id], references: [id], map: "invoice_products_invoice_id_foreign")
-  products   products @relation(fields: [product_id], references: [id], map: "invoice_products_product_id_foreign")
-  users      users    @relation(fields: [user_id], references: [id], map: "invoice_products_user_id_foreign")
-
-  @@index([invoice_id], map: "invoice_products_invoice_id_foreign")
-  @@index([product_id], map: "invoice_products_product_id_foreign")
-  @@index([user_id], map: "invoice_products_user_id_foreign")
+  image1     String   @db.VarChar(100)
+  image2     String   @db.VarChar(100)
+  image3     String   @db.VarChar(100)
+  doc        String   @db.VarChar(100)
+  color      String   @db.VarChar(100)
+  size       String   @db.VarChar(100)
+  product_id BigInt   @unique @db.UnsignedBigInt
+  createAt   DateTime @default(now()) @db.Timestamp(0)
+  updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  product    product  @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Restrict)
 }
 
-model invoices {
-  id               BigInt                   @id @default(autoincrement()) @db.UnsignedBigInt
-  total            String                   @db.VarChar(50)
-  vat              String                   @db.VarChar(50)
-  payable          String                   @db.VarChar(50)
-  cus_details      String                   @db.VarChar(500)
-  ship_details     String                   @db.VarChar(500)
-  tran_id          String                   @db.VarChar(100)
-  val_id           String                   @default("0") @db.VarChar(100)
-  delivery_status  invoices_delivery_status
-  payment_status   String                   @db.VarChar(255)
-  user_id          BigInt                   @db.UnsignedBigInt
-  created_at       DateTime                 @default(now()) @db.Timestamp(0)
-  updated_at       DateTime                 @default(now()) @db.Timestamp(0)
-  invoice_products invoice_products[]
-  users            users                    @relation(fields: [user_id], references: [id], map: "invoices_user_id_foreign")
-
-  @@index([user_id], map: "invoices_user_id_foreign")
-}
-
-model migrations {
-  id        Int    @id @default(autoincrement()) @db.UnsignedInt
-  migration String @db.VarChar(255)
-  batch     Int
-}
-
-model personal_access_tokens {
-  id             BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
-  tokenable_type String    @db.VarChar(255)
-  tokenable_id   BigInt    @db.UnsignedBigInt
-  name           String    @db.VarChar(255)
-  token          String    @unique(map: "personal_access_tokens_token_unique") @db.VarChar(64)
-  abilities      String?   @db.Text
-  last_used_at   DateTime? @db.Timestamp(0)
-  expires_at     DateTime? @db.Timestamp(0)
-  created_at     DateTime? @db.Timestamp(0)
-  updated_at     DateTime? @db.Timestamp(0)
-
-  @@index([tokenable_type, tokenable_id], map: "personal_access_tokens_tokenable_type_tokenable_id_index")
-}
-
-model policies {
-  id   BigInt        @id @default(autoincrement()) @db.UnsignedBigInt
-  type policies_type
-  des  String        @db.LongText
-}
-
-model product_carts {
-  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
-  user_id    BigInt   @db.UnsignedBigInt
-  product_id BigInt   @db.UnsignedBigInt
-  color      String   @db.VarChar(200)
-  size       String   @db.VarChar(200)
-  qty        String   @db.VarChar(200)
-  price      String   @db.VarChar(200)
-  created_at DateTime @default(now()) @db.Timestamp(0)
-  updated_at DateTime @default(now()) @db.Timestamp(0)
-  products   products @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "product_carts_product_id_foreign")
-  users      users    @relation(fields: [user_id], references: [id], map: "product_carts_user_id_foreign")
-
-  @@index([product_id], map: "product_carts_product_id_foreign")
-  @@index([user_id], map: "product_carts_user_id_foreign")
-}
-
-model product_details {
-  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
-  img1       String   @db.VarChar(200)
-  img2       String   @db.VarChar(200)
-  img3       String   @db.VarChar(200)
-  img4       String   @db.VarChar(200)
-  des        String   @db.LongText
-  color      String   @db.VarChar(200)
-  size       String   @db.VarChar(200)
-  product_id BigInt   @unique(map: "product_details_product_id_unique") @db.UnsignedBigInt
-  created_at DateTime @default(now()) @db.Timestamp(0)
-  updated_at DateTime @default(now()) @db.Timestamp(0)
-  products   products @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "product_details_product_id_foreign")
-}
-
-model product_reviews {
-  id                BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
-  description       String            @db.VarChar(1000)
-  rating            String            @db.VarChar(10)
-  customer_id       BigInt            @db.UnsignedBigInt
-  product_id        BigInt            @db.UnsignedBigInt
-  created_at        DateTime          @default(now()) @db.Timestamp(0)
-  updated_at        DateTime          @default(now()) @db.Timestamp(0)
-  customer_profiles customer_profiles @relation(fields: [customer_id], references: [id], onUpdate: Restrict, map: "product_reviews_customer_id_foreign")
-  products          products          @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "product_reviews_product_id_foreign")
-
-  @@index([customer_id], map: "product_reviews_customer_id_foreign")
-  @@index([product_id], map: "product_reviews_product_id_foreign")
-}
-
-model product_sliders {
-  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
-  title      String   @db.VarChar(200)
-  short_des  String   @db.VarChar(500)
-  price      String   @db.VarChar(100)
-  image      String   @db.VarChar(200)
-  product_id BigInt   @unique(map: "product_sliders_product_id_unique") @db.UnsignedBigInt
-  created_at DateTime @default(now()) @db.Timestamp(0)
-  updated_at DateTime @default(now()) @db.Timestamp(0)
-  products   products @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "product_sliders_product_id_foreign")
-}
-
-model product_wishes {
-  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
-  product_id BigInt   @db.UnsignedBigInt
-  user_id    BigInt   @db.UnsignedBigInt
-  created_at DateTime @default(now()) @db.Timestamp(0)
-  updated_at DateTime @default(now()) @db.Timestamp(0)
-  products   products @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "product_wishes_product_id_foreign")
-  users      users    @relation(fields: [user_id], references: [id], map: "product_wishes_user_id_foreign")
-
-  @@index([product_id], map: "product_wishes_product_id_foreign")
-  @@index([user_id], map: "product_wishes_user_id_foreign")
-}
-
-model products {
-  id               BigInt             @id @default(autoincrement()) @db.UnsignedBigInt
-  title            String             @db.VarChar(200)
-  short_des        String             @db.VarChar(500)
-  price            String             @db.VarChar(50)
-  discount         Boolean
-  discount_price   String             @db.VarChar(50)
-  image            String             @db.VarChar(200)
-  stock            Boolean
-  star             Float
-  remark           products_remark
-  category_id      BigInt             @db.UnsignedBigInt
-  brand_id         BigInt             @db.UnsignedBigInt
-  created_at       DateTime           @default(now()) @db.Timestamp(0)
-  updated_at       DateTime           @default(now()) @db.Timestamp(0)
-  invoice_products invoice_products[]
-  product_carts    product_carts[]
-  product_details  product_details?
-  product_reviews  product_reviews[]
-  product_sliders  product_sliders?
-  product_wishes   product_wishes[]
-  // brands           brands             @relation(fields: [brand_id], references: [id], map: "products_brand_id_foreign")
-  categories       categories         @relation(fields: [category_id], references: [id], map: "products_category_id_foreign")
-
-  @@index([brand_id], map: "products_brand_id_foreign")
-  @@index([category_id], map: "products_category_id_foreign")
-}
-
-model sslcommerz_accounts {
-  id           BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
-  store_id     String    @db.VarChar(255)
-  store_passwd String    @db.VarChar(255)
-  currency     String    @db.VarChar(255)
-  success_url  String    @db.VarChar(255)
-  fail_url     String    @db.VarChar(255)
-  cancel_url   String    @db.VarChar(255)
-  ipn_url      String    @db.VarChar(255)
-  init_url     String    @db.VarChar(255)
-  created_at   DateTime? @db.Timestamp(0)
-  updated_at   DateTime? @db.Timestamp(0)
-}
-
-model users {
-  id                BigInt             @id @default(autoincrement()) @db.UnsignedBigInt
-  email             String             @unique(map: "users_email_unique") @db.VarChar(50)
-  otp               String             @db.VarChar(10)
-  created_at        DateTime           @default(now()) @db.Timestamp(0)
-  updated_at        DateTime           @default(now()) @db.Timestamp(0)
-  customer_profiles customer_profiles?
-  invoice_products  invoice_products[]
-  invoices          invoices[]
-  product_carts     product_carts[]
-  product_wishes    product_wishes[]
-}
-
-enum policies_type {
-  about
-  refund
-  terms
-  how_to_buy @map("how to buy")
-  contact
-  complain
-}
-
-enum invoices_delivery_status {
-  Pending
-  Processing
-  Completed
-}
-
-enum products_remark {
-  popular
-  new
-  top
-  special
-  trending
-  regular
-}
+ 
