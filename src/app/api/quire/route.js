@@ -1,7 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const { NextResponse } = require("next/server");
 
-// export async function POST(req, res) {
+// findMany Data
+
+// export async function GET(req, res) {
 //   try {
 //     const prisma = new PrismaClient();
 //     let resBody = await req.json();
@@ -19,16 +21,64 @@ const { NextResponse } = require("next/server");
 //     return NextResponse.json({ status: "error" });
 //   }
 // }
-export async function GET(req, res) {
+
+// search data in all data
+
+// export async function GET(req, res) {
+//   try {
+//     const prisma = new PrismaClient();
+//     // let resBody = await req.json();
+
+//     let result = await prisma.product.findMany({
+//       where: {
+//         image: {
+//           contains: "ap",
+//         },
+//       },
+//     });
+//     return NextResponse.json({
+//       status: "Successfull",
+//       result: result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     return NextResponse.json({ status: "error" });
+//   }
+// }
+
+// delete data on from full database
+
+// export async function DELETE(req, res) {
+//   try {
+//     const prisma = new PrismaClient();
+//     let resBody = await req.json();
+
+//     let result = await prisma.product.delete({
+//       where: resBody,
+//     });
+//     return NextResponse.json({
+//       status: "Successfull",
+//       result: result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     return NextResponse.json({ status: "error" });
+//   }
+// }
+
+// update data
+export async function PUT(req, res) {
   try {
     const prisma = new PrismaClient();
-    // let resBody = await req.json();
+    let resBody = await req.json();
 
-    let result = await prisma.product.findMany({
-      where: {
-        image: {
-          contains: "ap",
-        },
+    let result = await prisma.product.update({
+      where: resBody,
+      data: {
+        title: "samsung",
+        sub_title: "mackbook",
+        price: "symphony",
+        image: "mackbook",
       },
     });
     return NextResponse.json({
@@ -41,28 +91,26 @@ export async function GET(req, res) {
   }
 }
 
-// export async function GET(req, res) {
-//   try {
-//     const prisma = new PrismaClient();
+// find data using where
 
-//     let result = await prisma.product.findMany({
-//       take: 3,
-//       skip: 2,
-//       select: {
-//         id: true,
-//         image: true,
-//         createAt: true,
-//       },
-//     });
-//     return NextResponse.json({
-//       status: "Successfull",
-//       result: result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     return NextResponse.json({ status: "error" });
-//   }
-// }
+export async function GET(req, res) {
+  try {
+    const prisma = new PrismaClient();
+
+    let result = await prisma.product.findMany({
+      where: { id: "3" },
+    });
+    return NextResponse.json({
+      status: "Successfull",
+      result: result,
+    });
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({ status: "error" });
+  }
+}
+
+// createMany data
 
 // export async function POST(req, res) {
 //   BigInt.prototype.toJSON = function () {
