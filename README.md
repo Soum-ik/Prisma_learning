@@ -4,21 +4,21 @@
 
 Prisma makes it easy for developers to reason about their database queries by providing a clean and type-safe API for submitting database queries which returns plain old JavaScript objects.</p>
 
-## <h4>1. npm install prisma --save-dev</h4>
+## 1. npm install prisma --save-dev
 
-## <h4>2. npx prisma init --datasource-provider mysql</h4>
+## 2. npx prisma init --datasource-provider mysql
 
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/efaa8a8f-ff9f-4727-927d-ad1bdce810a8)
 
-## you can connect those with prisma!
+## You can connect those with prisma!
 
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/9e3629f5-5027-4708-b404-60015a484875)
 
-## you can use those database with prisma!
+## You can use those database with prisma!
 
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/315a86e7-192e-47f2-b709-ef27ebcee86b)
 
-## write your first schema
+## Write your first schema
 
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/f4807975-573f-4b75-8be7-7dd07f782afc)
 
@@ -28,7 +28,7 @@ Prisma makes it easy for developers to reason about their database queries by pr
 
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/5c9e5ef9-f27e-44a4-a7f1-038a705fea8b)
 
-## some properties on prisma
+## Some properties on prisma
 
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/7355fa29-0b8d-4e1d-8163-f34e558efa6e)
 
@@ -43,3 +43,5 @@ Prisma makes it easy for developers to reason about their database queries by pr
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/cbc0dcd8-5097-4f60-afaf-08929593b537)
 
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/caaf34ba-9a0f-4a02-9b3a-195b2651cd56)
+
+### If you like this repo please give star.
