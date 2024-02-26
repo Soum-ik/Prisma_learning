@@ -1,4 +1,6 @@
-## Install prisma 😍
+
+![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/efaa8a8f-ff9f-4727-927d-ad1bdce810a8)
+
 
 <h4>1. npm install prisma --save-dev</h4>
 <h4>2. npx prisma init --datasource-provider mysql</h4>
