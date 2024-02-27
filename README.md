@@ -44,4 +44,7 @@ Prisma makes it easy for developers to reason about their database queries by pr
 
 ![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/caaf34ba-9a0f-4a02-9b3a-195b2651cd56)
 
+## using operator
+![image](https://github.com/Soum-ik/Prisma_learning/assets/110479389/5a4aa96a-59fd-4c60-ab9c-5af77bbb4337)
+
 ### If you like this repo please give star.
