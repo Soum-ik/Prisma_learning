@@ -113,9 +113,9 @@ export async function GET(req, res) {
 // createMany data
 
 // export async function POST(req, res) {
-//   BigInt.prototype.toJSON = function () {
-//     return this.toString();
-//   };
+// BigInt.prototype.toJSON = function () {
+//   return this.toString();
+// };
 
 //   try {
 //     const prisma = new PrismaClient();

@@ -13,30 +13,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model product {
-  id        BigInt @id @default(autoincrement()) @db.UnsignedBigInt
-  title     String @db.VarChar(100)
-  sub_title String @db.VarChar(100)
-  price     String @db.VarChar(100)
-  image     String @db.VarChar(100)
+// model product {
+//   id        BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+//   title     String @db.VarChar(100)
+//   sub_title String @db.VarChar(100)
+//   price     String @db.VarChar(100)
+//   image     String @db.VarChar(100)
 
-  createAt       DateTime        @default(now()) @db.Timestamp(0)
-  updateAt       DateTime        @default(now()) @updatedAt @db.Timestamp(0)
-  product_detils product_detils?
+//   createAt       DateTime        @default(now()) @db.Timestamp(0)
+//   updateAt       DateTime        @default(now()) @updatedAt @db.Timestamp(0)
+//   product_detils product_detils?
+// }
+
+// model product_detils {
+//   id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+//   image1     String   @db.VarChar(100)
+//   image2     String   @db.VarChar(100)
+//   image3     String   @db.VarChar(100)
+//   doc        String   @db.VarChar(100)
+//   color      String   @db.VarChar(100)
+//   size       String   @db.VarChar(100)
+//   product_id BigInt   @unique @db.UnsignedBigInt
+//   createAt   DateTime @default(now()) @db.Timestamp(0)
+//   updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+//   product    product  @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Restrict)
+// }
+
+model student {
+  id       BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  first    String   @db.VarChar(100)
+  last     String   @db.VarChar(100)
+  company  String   @db.VarChar(100)
+  email    String   @unique @db.VarChar(1100)
+  number   String   @unique @db.VarChar(100)
+  message  String   @db.VarChar(10000)
+  createAt DateTime @default(now()) @db.Timestamp(0)
+  updateAt DateTime @default(now()) @updatedAt @db.Timestamp(0)
 }
-
-model product_detils {
-  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
-  image1     String   @db.VarChar(100)
-  image2     String   @db.VarChar(100)
-  image3     String   @db.VarChar(100)
-  doc        String   @db.VarChar(100)
-  color      String   @db.VarChar(100)
-  size       String   @db.VarChar(100)
-  product_id BigInt   @unique @db.UnsignedBigInt
-  createAt   DateTime @default(now()) @db.Timestamp(0)
-  updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
-  product    product  @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Restrict)
-}
-
- 
