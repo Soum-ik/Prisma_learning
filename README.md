@@ -1,4 +1,4 @@
-## why prisma ?
+## Why prisma ?
 
 <p>Working with relational databases is a major bottleneck in application development. Debugging SQL queries or complex ORM objects often consume hours of development time.
 
